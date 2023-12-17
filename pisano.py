@@ -1,3 +1,5 @@
+import math
+
 # A function to check if a number is prime
 def is_prime(n):
   # Check if n is less than or equal to 1
@@ -77,18 +79,38 @@ def pisano(n):
       # Return the length of the period
       return i + 1
 
+def least_common_multiple(a,b):
+    return a*b//math.gcd(a,b)
+
+# def cache function values
+def pisano_cache(n):
+    pisano_cache.cache={}
+    if n in pisano_cache.cache:
+        return pisano_cache.cache[n]
+    else:
+        pisano_cache.cache[n]=pisano(n)
+        return pisano_cache.cache[n]
+
+# A function to calculate the Pisano period of n through decomposition
+def pisano_decompose(n):
+  pi=1
+  factors=prime_factorization(n)
+  for f in factors:
+    pi=least_common_multiple(pisano_cache(f**factors[f]),pi)
+  return pi
+
 # Calculate and return Pisano Period
 # The length of a Pisano Period for
 # a given m ranges from 3 to m * m
 def pisano_period(m):
-    previous, current = 0, 1
-    for i in range(0, m * m):
-        previous, current \
-        = current, (previous + current) % m
+  previous, current = 0, 1
+  for i in range(0, m * m):
+    previous, current \
+    = current, (previous + current) % m
 
-        # A Pisano Period starts with 01
-        if (previous == 0 and current == 1):
-            return i + 1
+    # A Pisano Period starts with 01
+    if (previous == 0 and current == 1):
+       return i + 1
 
 # A function to calculate the sum of all numbers smaller than M
 # for which the Pisano period is k
@@ -98,17 +120,18 @@ def sum_pisano(M, k):
   # Loop through all numbers from 1 to M
   for n in range(1, M):
     # Check if the Pisano period of n is k
-    if pisano(n) == k:
+    if pisano_decompose(n) == k:
       # Add n to the sum
       s += n
   # Return the sum
   return s
 
-print("The sum of all numbers smaller than 50000 for which the Pisano period is 20 is "+str(sum_pisano(50000, 20)))
-exit()
-
 for n in (9, 19, 38, 76):
   print("pisano("+str(n)+")="+str(pisano(n)))
+  print("pisano("+str(n)+")="+str(pisano_decompose(n)))
+
+print("The sum of all numbers smaller than 50000 for which the Pisano period is 20 is "+str(sum_pisano(50000, 20)))
+exit()
 
 for n in range(2,100):
   if(is_prime(n)):
