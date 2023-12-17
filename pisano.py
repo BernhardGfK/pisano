@@ -1,5 +1,4 @@
 import math
-from itertools import groupby
 
 # A function to check if a number is prime
 def is_prime(n):
@@ -110,6 +109,25 @@ def pisano_period(m):
     if (previous == 0 and current == 1):
        return i + 1
 
+def is_equal(v, k):
+    if k == 0:
+        return False
+    for i in range(0, k):
+        if v[i] != v[k + i]:
+            return False
+    return True
+
+def get_pisano_period(m):
+    v = []
+    a = 0
+    k = 0
+    b = 1
+    while not is_equal(v, k):
+        v.append(a % m)
+        a, b = b, a + b
+        k = len(v) // 2
+    return k
+
 # A function to calculate the sum of all numbers smaller than M
 # for which the Pisano period is k
 def sum_pisano(M, k):
@@ -124,16 +142,58 @@ def sum_pisano(M, k):
   # Return the sum
   return s
 
+#pisano(2)=3
+#pisano(3)=8
+#pisano(5)=20
+#pisano(11)=10
+#pisano(31)=30
+#pisano(41)=40
+#pisano(61)=60
+#pisano(2521)=120
+
+from itertools import product
+
+d={
+  2 : [0,1,2,3,4],
+  3 : [0,1,2],
+  5 : [0,1],
+  11 : [0,1],
+  31 : [0,1],
+  41 : [0,1],
+  61 : [0,1],
+  2521 : [0,1]
+  }
+
+lists=[]
+for p in d:
+    lists.append(d[p])
+
+s=0
+for tup in product(*lists):
+    n=1
+    i=0
+    for p in d:
+        n=n*p**tup[i]
+        i+=1
+        # two variablea rznning in parallel ia not nice it ecen confuaes copilot
+    if(n<10**9 and pisano(n)==120):
+        s+=n
+        #print("pisano("+str(n)+")="+str(pisano(n)))
+print(s)
+exit(0)
+
+for n in range(2,100000):
+  if(is_prime(n)):
+      if(120%pisano(n)==0):
+          print("pisano("+str(n)+")="+str(pisano(n)))
+
+exit()
 for n in (9, 19, 38, 76):
   print("pisano("+str(n)+")="+str(pisano(n)))
   print("pisano("+str(n)+")="+str(pisano_decompose(n)))
+  print("pisano("+str(n)+")="+str(get_pisano_period(n)))
 
 print("The sum of all numbers smaller than 50000 for which the Pisano period is 20 is "+str(sum_pisano(50000, 20)))
-exit()
-
-for n in range(2,100):
-  if(is_prime(n)):
-      print("pisano("+str(n)+")="+str(pisano(n)))
 
 for n in range(2,100):
   if(pisano(n)==120):
