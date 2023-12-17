@@ -104,6 +104,9 @@ def sum_pisano(M, k):
   # Return the sum
   return s
 
+print("The sum of all numbers smaller than 50000 for which the Pisano period is 20 is "+str(sum_pisano(50000, 20)))
+exit()
+
 for n in (9, 19, 38, 76):
   print("pisano("+str(n)+")="+str(pisano(n)))
 
@@ -116,6 +119,5 @@ for n in range(2,100):
       print("pisano("+str(n)+")="+str(pisano(n)))
 
 print("The sum of all numbers smaller than 50 for which the Pisano period is 18 is "+str(sum_pisano(50, 18)))
-print("The sum of all numbers smaller than 10^5 for which the Pisano period is 20 is "+str(sum_pisano(10**5, 20)))
 
 # You can learn more about the Pisano period from Wikipedia https://en.wikipedia.org/wiki/Pisano_period or GeeksforGeeks https://www.geeksforgeeks.org/fibonacci-number-modulo-m-and-pisano-period/.
