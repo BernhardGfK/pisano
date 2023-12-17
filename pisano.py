@@ -1,4 +1,5 @@
 import math
+from itertools import groupby
 
 # A function to check if a number is prime
 def is_prime(n):
@@ -34,7 +35,7 @@ def prime_decomposition_list(n):
     else:
       # Increment d by 1
       d += 1
-      # Return the list of factors
+  # Return the list of factors
   return factors
 
 # This function works by repeatedly dividing n by the smallest possible prime factor until it becomes 1. It uses a simple trial division algorithm, which has a time complexity of O(sqrt(n)) in the worst case.
@@ -63,8 +64,6 @@ def prime_factorization(n):
 
 # This function works by using a dictionary to keep track of the prime factors and their exponents. It uses the same trial division algorithm as before, but instead of appending the factors to a list, it updates the dictionary values. It uses the get method to return the default value of 0 if the key is not in the dictionary.
 
-
-
 # A function to calculate the Pisano period of n
 def pisano(n):
   # Initialize the previous and current Fibonacci numbers modulo n
@@ -90,7 +89,7 @@ def pisano_cache(n):
     else:
         pisano_cache.cache[n]=pisano(n)
         return pisano_cache.cache[n]
-
+ 
 # A function to calculate the Pisano period of n through decomposition
 def pisano_decompose(n):
   pi=1
@@ -107,7 +106,6 @@ def pisano_period(m):
   for i in range(0, m * m):
     previous, current \
     = current, (previous + current) % m
-
     # A Pisano Period starts with 01
     if (previous == 0 and current == 1):
        return i + 1
